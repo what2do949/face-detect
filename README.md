@@ -3,23 +3,22 @@
 Python base
 Using open-cv and face_recognition to check student info such as class schedules.
 
-Install:
+<b>Install:</b>
 pip install -r requirements.txt
 
 Take sample pictures:
  python3 take-picture.py
- #this will take picture from your webcam and put your picture in faces directory.
+
+This will take picture from your webcam and put your picture in faces directory.
  
-Detect faces:
+<b>Detect faces:</b>
  python3 face-detect.py
  
 This pre-load all picture in faces directory and check against new faces in webcam
 
-mulTi-thread functionality implement to automatically detect new pictures take.
+<b>Mult-thread:</b> Detect faces: functionality implement to automatically detect new pictures take and will poll JSON data every duration.
 
-Faces are check against json server example url : 
-
-Example data [{"teacherName":"Frits","studentList":["邓姝婷","周曦彤","刘军妮","刘燕","王亮"],"className":"16.getting a job","time":"2019-05-08 10:00:00"},]
+-Example data [{"teacherName":"Frits","studentList":["邓姝婷","周曦彤","刘军妮","刘燕","王亮"],"className":"16.getting a job","time":"2019-05-08 10:00:00"},]
  
  
  
