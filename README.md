@@ -6,15 +6,15 @@ Python base:
 Using open-cv and face_recognition to check student info such as class schedules.
 
 <b>Install:</b>
-pip install -r requirements.txt
+<i>pip install -r requirements.txt</i>
 
 Take sample pictures:
- python3 take-picture.py
+<i>python3 camera.py</i>
 
 -This will take photo from your webcam and put your photo in faces directory.
  
 <b>Detect faces:</b>
- python3 face-detect.py
+<i>python3 face-detect.py</i>
  
 -This pre-load all picture in faces directory and check against your face in webcam
 
