@@ -12,9 +12,14 @@ Take sample pictures:
  
 Detect faces:
  python3 face-detect.py
- #This pre-load all picture in faces directory and check against new faces in webcam
- #muli-thread functionality implement to automatically detect new pictures take.
- #faces are check against json server : Example data [{"teacherName":"Frits","studentList":["邓姝婷","周曦彤","刘军妮","刘燕","王亮"],"className":"16.getting a job","time":"2019-05-08 10:00:00"},]
+ 
+This pre-load all picture in faces directory and check against new faces in webcam
+
+mulTi-thread functionality implement to automatically detect new pictures take.
+
+Faces are check against json server example url : 
+
+Example data [{"teacherName":"Frits","studentList":["邓姝婷","周曦彤","刘军妮","刘燕","王亮"],"className":"16.getting a job","time":"2019-05-08 10:00:00"},]
  
  
  
