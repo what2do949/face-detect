@@ -189,7 +189,7 @@ while True:
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 0), (right, bottom), (255, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
-        b,g,r,a = 0,0,0,0
+        b,g,r,a = 255,0,0,0
         toSay = False
         if name != "Unknown":
             findStudent = False

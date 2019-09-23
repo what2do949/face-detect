@@ -1,6 +1,0 @@
-opencv_contrib_python==3.4.4.19
-requests==2.18.4
-face_recognition==1.2.3
-pyttsx3==2.7
-numpy==1.14.1
-Pillow==5.3.0
