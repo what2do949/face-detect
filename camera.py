@@ -52,7 +52,7 @@ def saveImage(imagePath):
 tk.Button(root, text='Take Picture', command=onTakePicture).pack()
 tk.Button(root, text='CLOSE', command=onClose).pack(side= tk.RIGHT)
 
-def show_frame():
+def showFrame():
     _, frame = cap.read()
     frame = cv2.flip(frame, 1)
     frame = cv2.resize(frame, (width, height)) 
@@ -61,10 +61,10 @@ def show_frame():
     imgtk = ImageTk.PhotoImage(image=img)
     lmain.imgtk = imgtk
     lmain.configure(image=imgtk)
-    lmain.after(10, show_frame)
+    lmain.after(10, showFrame)
 
 
 
 
-show_frame()
+showFrame()
 root.mainloop()

@@ -26,7 +26,7 @@ from PIL import ImageFont, ImageDraw, Image
 engine = pyttsx3.init()
 engine.startLoop(False)
 scanned = {}
-toSay = ""
+to_say = ""
 width, height = 720,480
 
 class Student:
@@ -34,59 +34,59 @@ class Student:
     # Class Attribute
 
     # Initializer / Instance Attributes
-    def __init__(self, name, teacherName, className, time, ):
+    def __init__(self, name, teacher_name, class_name, time, ):
         self.name = name
-        self.teacherName = teacherName
-        self.className = className
+        self.teacher_name = teacher_name
+        self.class_name = teacher_name
         self.time = time
 
-studentObjDict = {}
-studentTimeDict = {}
+student_obj_dict = {}
+student_time_dict = {}
 
-def getStudentInfo(fStop):
+def get_student_info(fStop):
 
     #response = requests.get("http://release.zhen-yee.com/jh/data/api/classes")
     #loaded_json = json.loads(response.text)
-    global loaded_json 
-    global studentObjDict
-    global studentTimeDict
+    global loaded_json
+    global student_obj_dict
+    global student_time_dict
 
     with open('class.json') as f:
     	loaded_json = json.load(f)
 
     for x in loaded_json:
-        studentList = x['studentList']
-        for student in studentList:
-            if((student in studentObjDict) == False):
+        student_list = x['studentList']
+        for student in student_list:
+            if((student in student_obj_dict) == False):
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
                 if( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
-                    studentObjDict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
-                    studentTimeDict[student] =  x['time']
+                    student_obj_dict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
+                    student_time_dict[student] =  x['time']
             else:
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
-                previousTime = studentTimeDict.get(student)
-                previousTime = datetime.datetime.strptime(previousTime, "%Y-%m-%d %H:%M:%S")
-                if( d > previousTime) and ( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
-                    studentObjDict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
-                    studentTimeDict[student] =  x['time']
-    if not fStop.is_set():
+                previous_time = student_time_dict.get(student)
+                previous_time = datetime.datetime.strptime(previous_time, "%Y-%m-%d %H:%M:%S")
+                if( d > previous_time) and ( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
+                    student_obj_dict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
+                    student_time_dict[student] =  x['time']
+    if not full_stop.is_set():
         # call f() again in 60 seconds
-        threading.Timer(60, getStudentInfo, [fStop]).start()
+        threading.Timer(60, get_student_info, [full_stop]).start()
 
-fStop = threading.Event()
-getStudentInfo(fStop)
+full_stop = threading.Event()
+get_student_info(full_stop)
 
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
-pictureFoldersList = []
+picture_folders_list = []
 images = {} 
 first = 0
 
 known_face_encodings = []
 known_face_names = []
 
-def loadFolder(pStop):
+def load_folder(pStop):
     face_dir = "faces" 
     counter = 0
     for dir in os.listdir(face_dir):
@@ -97,12 +97,12 @@ def loadFolder(pStop):
             i = 0
             for jpg in os.listdir(face_dir + "/" + dir + "/"): 
                 if(jpg.lower().endswith(".jpg") and not (jpg.startswith('.'))):
-                    if not dir in pictureFoldersList:
+                    if not dir in picture_folders_list:
                         image_object = face_recognition.load_image_file(face_dir + "/" + dir + "/" + jpg)
                         try:
                             images[dir]  = face_recognition.face_encodings(image_object)[i] 
                             i = i + 1
-                            pictureFoldersList.append(dir)
+                            picture_folders_list.append(dir)
                             global first 
                             if ( first != 0):
                                 print ("Processing " +  str(counter) +  "... " + dir + "\n")
@@ -117,10 +117,10 @@ def loadFolder(pStop):
     if not pStop.is_set():
         first = 1
         # call f() again in 60 seconds
-        threading.Timer(60, loadFolder, [pStop]).start()
+        threading.Timer(60, load_folder, [part_stop]).start()
 
-pStop = threading.Event()
-loadFolder(pStop)
+part_stop = threading.Event()
+load_folder(part_stop)
 
 #biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 
@@ -197,8 +197,8 @@ while True:
             font = ImageFont.truetype(fontpath, 32)
             img_pil = Image.fromarray(frame)
             draw = ImageDraw.Draw(img_pil)
-            if name in studentObjDict:
-                student = studentObjDict.get(name)  
+            if name in student_obj_dict:
+                student = student_obj_dict.get(name)
                 #print("student " + student.name)
                 if(student.name == name):
                     draw.text((50, 80),  name, font = font, fill = (b, g, r, a))
