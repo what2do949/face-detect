@@ -26,6 +26,9 @@ from PIL import ImageFont, ImageDraw, Image
 engine = pyttsx3.init()
 engine.startLoop(False)
 scanned = {}
+toSay = ""
+width, height = 720,480
+
 class Student:
 
     # Class Attribute
@@ -41,10 +44,16 @@ studentObjDict = {}
 studentTimeDict = {}
 
 def getStudentInfo(fStop):
-    response = requests.get("http://release.zhen-yee.com/jh/data/api/classes")
-    loaded_json = json.loads(response.text)
+
+    #response = requests.get("http://release.zhen-yee.com/jh/data/api/classes")
+    #loaded_json = json.loads(response.text)
+    global loaded_json 
     global studentObjDict
     global studentTimeDict
+
+    with open('class.json') as f:
+    	loaded_json = json.load(f)
+
     for x in loaded_json:
         studentList = x['studentList']
         for student in studentList:
@@ -228,6 +237,7 @@ while True:
                     #break
  
     # Display the resulting image
+    frame = cv2.resize(frame, (width, height))
     cv2.imshow('Video', frame)
     if(toSay):
         time.sleep(2)
