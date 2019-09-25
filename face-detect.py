@@ -34,16 +34,16 @@ class Student:
     # Class Attribute
 
     # Initializer / Instance Attributes
-    def __init__(self, name, teacher_name, class_name, time, ):
+    def __init__(self, name, teacher_name , class_name, time, ):
         self.name = name
         self.teacher_name = teacher_name
-        self.class_name = teacher_name
+        self.class_name = class_name
         self.time = time
 
 student_obj_dict = {}
 student_time_dict = {}
 
-def get_student_info(fStop):
+def get_student_info(full_stop):
 
     #response = requests.get("http://release.zhen-yee.com/jh/data/api/classes")
     #loaded_json = json.loads(response.text)
@@ -60,14 +60,14 @@ def get_student_info(fStop):
             if((student in student_obj_dict) == False):
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
                 if( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
-                    student_obj_dict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
+                    student_obj_dict[student] =  (Student(student, x['teacher_name'], x['class_name'], x['time']))
                     student_time_dict[student] =  x['time']
             else:
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
                 previous_time = student_time_dict.get(student)
                 previous_time = datetime.datetime.strptime(previous_time, "%Y-%m-%d %H:%M:%S")
                 if( d > previous_time) and ( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
-                    student_obj_dict[student] =  (Student(student, x['teacherName'], x['className'], x['time']))
+                    student_obj_dict[student] =  (Student(student, x['teacher_name'], x['class_name'], x['time']))
                     student_time_dict[student] =  x['time']
     if not full_stop.is_set():
         # call f() again in 60 seconds
@@ -202,10 +202,10 @@ while True:
                 #print("student " + student.name)
                 if(student.name == name):
                     draw.text((50, 80),  name, font = font, fill = (b, g, r, a))
-                    draw.text((50, 160),  student.className, font = font, fill = (b, g, r, a))
+                    draw.text((50, 160),  student.class_name, font = font, fill = (b, g, r, a))
                     img = np.array(img_pil)
                     cv2.putText(img,  student.time, (100,300), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (b,g,r), 1, cv2.LINE_AA)
-                    #cv2.putText(img,  student.className, (100,320), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (b,g,r), 1, cv2.LINE_AA)
+                    #cv2.putText(img,  student.class_name, (100,320), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (b,g,r), 1, cv2.LINE_AA)
                     frame = img
                     if(name in scanned):
                         rightNow = datetime.datetime.now()
@@ -218,15 +218,15 @@ while True:
                     if(toSay):
                         engine.setProperty('voice', 'com.apple.speech.synthesis.voice.ting-ting')
                         engine.say(unicode(name))
-                        engine.say(unicode(student.className))
+                        engine.say(unicode(student.class_name))
                         scanned[name] = datetime.datetime.now() + datetime.timedelta(seconds = 15)
-                    #engine.say(" is in class " + student.className  );
+                    #engine.say(" is in class " + student.class_name  );
                     engine.iterate()
 
                     #cv2.imshow("res", img);cv2.waitKey();cv2.destroyAllWindows()
                     #cv2.putText(frame, name  , (left + 6, bottom - 70), font, 1.0, (255, 255, 255), 1)
                     #cv2.putText(frame, student.time.str()  , (left + 6, bottom - 35), font, 1.0, (255, 255, 255), 1)
-                    #cv2.putText(frame, student.className  , (left + 6, bottom - 5), font, 1.0, (255, 255, 255), 1)
+                    #cv2.putText(frame, student.class_name  , (left + 6, bottom - 5), font, 1.0, (255, 255, 255), 1)
                     findStudent = True
             
             else:
