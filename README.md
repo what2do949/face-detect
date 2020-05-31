@@ -27,3 +27,4 @@ Take sample pictures:
  
  
 
+v0.0.0.2
