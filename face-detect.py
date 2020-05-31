@@ -24,6 +24,7 @@ from PIL import ImageFont, ImageDraw, Image
 
 # Get a reference to webcam #0 (the default one
 engine = pyttsx3.init()
+engine.setProperty('rate', 125)  
 engine.startLoop(False)
 scanned = {}
 to_say = ""
@@ -59,16 +60,20 @@ def get_student_info(full_stop):
         for student in student_list:
             if((student in student_obj_dict) == False):
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
-                if( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
+                now = datetime.datetime.now()
+                now = now.replace(microsecond=0)
+                if( now - datetime.timedelta(minutes = 30) < d ):
                     student_obj_dict[student] =  (Student(student, x['teacher_name'], x['class_name'], x['time']))
                     student_time_dict[student] =  x['time']
+                    #print (str(d) + " " + str(datetime.datetime.now() + datetime.timedelta(minutes = 30)))
             else:
                 d = datetime.datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S")
                 previous_time = student_time_dict.get(student)
                 previous_time = datetime.datetime.strptime(previous_time, "%Y-%m-%d %H:%M:%S")
-                if( d > previous_time) and ( datetime.datetime.now() + datetime.timedelta(minutes = 30) < d ):
+                if( d < previous_time) and ( datetime.datetime.now() - datetime.timedelta(minutes = 30) < d ):
                     student_obj_dict[student] =  (Student(student, x['teacher_name'], x['class_name'], x['time']))
                     student_time_dict[student] =  x['time']
+                    
     if not full_stop.is_set():
         # call f() again in 60 seconds
         threading.Timer(60, get_student_info, [full_stop]).start()
@@ -216,7 +221,7 @@ while True:
                     else:
                         toSay = True
                     if(toSay):
-                        engine.setProperty('voice', 'com.apple.speech.synthesis.voice.ting-ting')
+                        engine.setProperty('voice', 'com.apple.speech.synthesis.voice.Kathy')
                         engine.say(unicode(name))
                         engine.say(unicode(student.class_name))
                         scanned[name] = datetime.datetime.now() + datetime.timedelta(seconds = 15)
