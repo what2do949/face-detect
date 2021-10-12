@@ -1,4 +1,4 @@
-opencv_contrib_python==3.4.4.19
+opencv_contrib_python==3.4.7.28
 requests>=2.20.0
 face_recognition==1.2.3
 pyttsx3==2.7
